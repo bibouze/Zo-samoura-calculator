@@ -18,7 +18,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Theme Variables */
         :root {
             --bg-main: #0f172a; --bg-panel: #1e293b; --bg-hover: #334155; --bg-input: #0f172a;
             --border-color: #334155; --text-main: #f8fafc; --text-muted: #94a3b8; --accent: #3b82f6;
@@ -55,7 +54,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Typographie */
         .display { font-family: 'Archivo', 'Inter', system-ui, sans-serif; letter-spacing: -0.015em; }
         .font-mono, .num {
             font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace !important;
@@ -96,7 +94,6 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
 
-        /* Rarity Classes */
         .rarity-common { color: #94a3b8; border-color: #94a3b8; }
         .rarity-uncommon { color: #34d399; border-color: #34d399; }
         .rarity-rare { color: #3b82f6; border-color: #3b82f6; }
@@ -123,7 +120,6 @@
         :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
         @media (prefers-reduced-motion: reduce) { * { transition-duration: 0.01ms !important; } }
 
-        /* Écran de chargement (CSS pur : visible avant Tailwind) */
         #boot {
             position: fixed; inset: 0; z-index: 999;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
@@ -145,7 +141,6 @@
         }
         @media (prefers-reduced-motion: reduce) { .boot-mark { animation: none; } }
 
-        /* Sélecteur de thème segmenté */
         .theme-switch {
             display: inline-flex; gap: 2px; padding: 3px;
             border-radius: 999px; background: var(--bg-input); border: 1px solid var(--border-color);
@@ -158,22 +153,30 @@
         .theme-opt:hover { color: var(--text-main); }
         .theme-opt.active { background: var(--accent); color: #ffffff; }
         .theme-opt svg { width: 16px; height: 16px; }
+
+        .beta-tag {
+            font-family: 'Archivo', system-ui, sans-serif;
+            font-size: 9px; font-weight: 800; line-height: 1;
+            letter-spacing: 0.16em; text-transform: uppercase;
+            padding: 4px 7px; border-radius: 4px;
+            color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent);
+            border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+        }
     </style>
 </head>
 <body>
 
-    <!-- Écran de chargement -->
     <div id="boot" aria-hidden="true">
         <div class="boot-mark"></div>
         <span class="boot-text">Zo Hub</span>
     </div>
 
-    <!-- Top Navigation -->
     <nav class="bg-panel border-panel p-4 sticky top-0 z-40 shadow-sm md:border-b transition-colors duration-300">
         <div class="max-w-7xl mx-auto flex justify-between items-center gap-4">
             <div class="flex items-center gap-2.5 select-none">
                 <span class="w-2.5 h-2.5 rounded-[2px] bg-[var(--accent)] rotate-45"></span>
                 <span class="display text-xl md:text-2xl font-black uppercase tracking-[0.14em] text-main">Zo<span class="text-[var(--accent)]">Hub</span></span>
+                <span class="beta-tag" title="Version en cours de développement">Beta</span>
             </div>
             <div class="hidden md:flex space-x-6 lg:space-x-8 text-sm font-bold uppercase tracking-wide h-full items-center">
                 <button onclick="switchTab('valuelist')" id="nav-desk-valuelist" class="nav-desktop active text-[var(--text-muted)] hover:text-[var(--text-main)] pb-1 transition">Values</button>
@@ -198,7 +201,6 @@
         </div>
     </nav>
 
-    <!-- Bottom Navigation (Mobile) -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 w-full bg-panel border-panel border-t z-50 grid grid-cols-4 p-2 safe-bottom shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] transition-colors duration-300">
         <button onclick="switchTab('valuelist')" id="nav-mob-valuelist" class="nav-mobile active flex flex-col items-center justify-center text-[var(--text-muted)] gap-1">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
@@ -218,10 +220,8 @@
         </button>
     </nav>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 md:p-8 max-w-7xl mx-auto w-full relative">
 
-        <!-- 1. VALUE LIST VIEW -->
         <section id="view-valuelist" class="view-section">
             <header class="mb-6">
                 <p class="eyebrow mb-2">Zomojis Value List</p>
@@ -240,7 +240,6 @@
             <div id="valueGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"></div>
         </section>
 
-        <!-- 2. CALCULATOR VIEW -->
         <section id="view-calculator" class="view-section hidden flex-col gap-6">
             <div id="trade-result" class="sticky top-[73px] z-30 p-5 rounded-xl text-center display font-black text-xl md:text-2xl tracking-[0.12em] uppercase border-panel bg-panel text-muted shadow-xl transition-colors duration-300">
                 Awaiting Items...
@@ -271,7 +270,6 @@
             </div>
         </section>
 
-        <!-- 3. DUPE SCANNER VIEW -->
         <section id="view-scanner" class="view-section hidden">
             <div class="mb-8 text-center max-w-2xl mx-auto">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full box-mass txt-mass mb-4 shadow-lg">
@@ -294,7 +292,6 @@
             <div id="scanner-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-7xl mx-auto"></div>
         </section>
 
-        <!-- 4. INVENTORY VIEW -->
         <section id="view-inventory" class="view-section hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-panel rounded-xl border-panel p-4 md:p-6 shadow-lg flex flex-col h-[600px]">
@@ -330,7 +327,6 @@
 
     </main>
 
-    <!-- MODAL FOR DUPED ITEMS -->
     <div id="dupe-modal" class="fixed inset-0 z-[100] hidden items-center justify-center px-4" onclick="closeDupeModal(event)">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
@@ -366,15 +362,18 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="mt-auto py-6 bg-main transition-colors duration-300">
-        <div class="text-center eyebrow">
-            Données Zomojis Value List
+    <footer class="mt-auto pt-8 pb-10 bg-main transition-colors duration-300 border-t border-[var(--border-color)]">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-2.5">
+            <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-[2px] bg-[var(--accent)] rotate-45"></span>
+                <span class="display text-sm font-black uppercase tracking-[0.22em] text-main">by LGPR Studio</span>
+            </div>
+            <p class="eyebrow">Powered by Zomojis Value List</p>
+            <p class="text-xs text-muted text-center max-w-sm leading-relaxed">Site en version bêta : des erreurs de valeurs ou de fonctionnement restent possibles.</p>
         </div>
     </footer>
 
     <script>
-        // --- ICONS & CATEGORIZATION FOR ZO SAMURAI ---
         const svgs = {
             'Katanas': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h5v5L5 23.5l-5-5L14.5 4z"></path><line x1="14.5" y1="4" x2="20" y2="9"></line><line x1="10.5" y1="13.5" x2="6.5" y2="9.5"></line></svg>`,
             'Scythes': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22L20 6"></path><path d="M22 10a10 10 0 0 0-14-14"></path></svg>`,
@@ -400,7 +399,6 @@
             return 'Katanas';
         }
 
-        // --- DUPE DATABASE (source: Zomojis Dupe List + Dupe Value List) ---
         // c: Soft Dupe value | d: Mass Dupe value | i: blacklist IDs | s: blacklist serials
         const dupeData = {
             "darkheart": { d: 78, c: 205, i: "32D0,6086,B296,C437,DF47,D0AF,77D4", s: "11,17,20,39,45,52,55,59,72,77,86,93,96,102,114,116,118,121,122,124,125,126,130" },
@@ -492,7 +490,6 @@
             "zeek's kanabo": { i: "06E", s: "" }
         };
 
-        // --- DATABASE BUILDER ---
         const wStr = "Darkheart,Celestial,625|Zeek,Ancient,560|Demon Eye,Ancient,550|Reaper Eye,Exotic,495|Venom's Eye,Exotic,300|Solar,Unique,300|Tempest,Exotic,290|Voice Of Creation,Mythic,185|Crown Scythe,Celestial,155|Sami's Feather,Legendary,150|Musket,Epic,138|Infernal Mace,Unique,120|Periastron,Mythic,116|Pump,Rare,110|Ghostwalker,Epic,105|Might + Magic,Legendary,100|Midnight Bloom,Unique,85|Firebrand,Legendary,85|Black Blood Saber,Legendary,80|Regicide,Unique,75|Fury Periastron,Rare,74|Frost Warhammer,Epic,71|Rose,Epic,71|Lollibop,Mythic,70|Claymore,Unique,64|Jade Buster,Unique,60|Wrathful Wisp,Mythic,58|Venomshank,Rare,55|Illumina,Epic,50|Dusk Blade,Rare,49|Black Blood Scythe,Mythic,45|Wyvernguard,Epic,43|Kris,Rare,40|Cosmic Divide,Uncommon,34|Fall Periastron,Legendary,34|WindForce,Epic,32|Trident Of Malice,Mythic,32|Ice Blade,Mythic,32|Golden Kiseru,Uncommon,31|Ice Dagger,Uncommon,29|Umbrella,Epic,26|Pink Shock Katana,Epic,26|Agony,Legendary,25|Peeka Katana,Epic,25|Luxury,Mythic,24|Angel Wing,Epic,24|Lightning Kanabo,Epic,23|Crystal Bearer,Mythic,23|Black Feather,Common,23|Shuriken Odachi,Unique,23|Turkey Leg,Rare,23|Sorrow Scythe,Legendary,23|Sakura,Common,22|Thunder Warhammer,Epic,21|Calamity,Epic,21|Wind Cutter,Common,21|Sakura Scythe,Epic,20|Gold Arrow,Legendary,18|Holiday Katana,Epic,17|Grim Reaver,Epic,16|Glory Blade,Legendary,16|Briar Thron,Mythic,15|Bite,Epic,14|Shisuisen,Epic,14|Deepsea Scimitar,Epic,14|Cute Kanabo,Epic,13|Rebirth Katana,Rare,13|Neon Katana,Legendary,13|Demonic Greatsword,Rare,12|Lunar Dragon Kanabo,Epic,12|Claws,Epic,12|Infernal Fans,Legendary,12|Gilded Hammer,Epic,11|Chikara,Rare,10|Scythe of the Reaper,Common,10|Tyranny,Epic,10|Cutlass,Legendary,10|Kings Trident,Uncommon,9|Shuriken Katana,Epic,9|Sparkler Katana,Epic,9|Kraken Slayer,Legendary,9|New Dawn,Legendary,9|Snowflake Staff,Legendary,8|Underworld,Epic,8|Hypnosis Tanto,Legendary,8|Undead Scythe,Rare,8|Bird Beak,Epic,8|Tommy Gun,Uncommon,8|Blood Saber,Uncommon,8|Candycorn Javelin,Rare,8|Ocean Iron,Epic,8|Dragon Iron,Legendary,8|World Ender,Legendary,7.5|Candycorn Claymore,Epic,7.5|Water Call,Epic,7|Black Blood Odachi,Epic,7|Pixel Katana,Uncommon,7|World Stone Blade,Epic,7|Forge Blade,Legendary,7|Holiday Kanabo,Epic,7|Holiday Naginata,Rare,7|Molten Core,Common,7|Mystical Tanto,Legendary,6|Feather Scythe,Epic,6|Lava Kanabo,Epic,6|Cyber Katana,Rare,6|Wings of Legend,Rare,5|Storm Bringer,Epic,5|Dragons Fury,Rare,5|X Katana,Rare,5|Legend Sword,Uncommon,5|Yamata no Orochi,Legendary,5|Dragon Kanabo,Epic,5|TrueSight Glave,Legendary,5|Musket Blade,Rare,5|Black Blood Katana,Epic,5|Ruyi Jingu Bang,Legendary,4|Shiny Blade,Rare,4|Blood Scythe,Uncommon,4|Cranium Kanabo,Epic,4|Tranquility,Epic,4|Icicle Staff,Legendary,4|Fantasy Blade,Rare,4|Adventures Torch,Epic,4|Electric Riff,Epic,4|Dark Katana,Epic,4|Arcade Heart Scythe,Uncommon,4|Black Widow,Rare,4|God Slayer,Legendary,4|Cerberus,Rare,4|Zeus Lightning Bolt,Uncommon,4|Sakura Naginata,Common,4|Space Fragment,Uncommon,4|Kanashimi,Common,4|Catalysm,Rare,3|Chaos Scythe,Common,3|WhirlWind Fan,Rare,3|Fools Katana,Uncommon,3|Soul Scythe,Epic,3|Bronze Blade,Rare,3|Pixel Scythe,Epic,3|Black Roses,Rare,3|Frozen Katana,Mythic,3|Aquatic Katana,Rare,3|Riftblade,Legendary,3|Black Lotus,Epic,3|Tidal Lance,Legendary,3|Wicked Flight,Rare,3|Slicing Moon,Epic,3|Gold Dagger,Legendary,3|Axeblade,Rare,3|Shattered Katana,Epic,3|Peeka Naginata,Rare,3|Scythe of the Sightless,Epic,3|Scythe of the Rocket,Epic,3|Lucky Scythe,Uncommon,3|Underworld Scythe,Epic,3|Withered Naginata,Uncommon,3|Nightfall Naginata,Uncommon,2.5|Project X Naginata,Common,2.5|Christmas Cane,Rare,2|Winter Blossom,Uncommon,2|Basan Scythe,Epic,2|Glowing Spear,Uncommon,2|Oni Nightmare,Uncommon,2|Evil Katana,Uncommon,2|Heart Blade,Uncommon,2|Rainbow Odachi,Rare,2|Stellar Odachi,Rare,2|Flash Blade,Epic,2|Desolation,Mythic,2|Alchemist Blade,Rare,2|White Knight,Uncommon,2|Jester Scythe,Rare,2|Eagle Warhammer,Uncommon,2|Void Katana,Uncommon,2|Witch Katana,Common,2|Dragon Katana,Uncommon,2|Slayer Kanabo,Uncommon,2|Shallow Grave,Uncommon,2|Christmas Tree Katana,Common,2|Redemption,Uncommon,2|Glow Disc,Epic,2|Primordial Pillar,Uncommon,2|Blood Moon Naginata,Rare,2|Tide Blade,Uncommon,2|Fan Tanto,Legendary,1.75|Basan Naginata,Rare,1.5|Basan Katana,Rare,1.5|Blood Moon Odachi,Rare,1.5|Shurikens,Mythic,1.5|Fire Blade,Uncommon,1|Terrestrial Katana,Uncommon,1|Avion,Uncommon,1|Arcade Heart Blade,Rare,1|Galacticus,Uncommon,1|Heart Naginata,Uncommon,1|Azure guardian,Uncommon,1|Glitch Kanabo,Legendary,1|Magic Tree,Rare,1|Phoenix Pyre,Uncommon,1|Sandforged,Uncommon,1|Dragon Tail,Rare,1|Eternity,Common,1|Razoredge Pulserifle,Rare,1|Project X Katana,Legendary,1|Festive Sword,Rare,1|Megalodon,Legendary,1|Basan Kanabo,Rare,1|Pumpkin Kanabo,Epic,1|Butterfly,Common,1|Hourglass,Uncommon,1|Piston Pickaxe,Rare,1|Emerald Knight,Uncommon,1|Blood Katana,Uncommon,1|Steel Tanto,Uncommon,1|Venom Katana,Common,1|Kingslayer Katana,Rare,0.75|Kingslayer Tanto,Rare,0.75|Kingslayer Odachi,Rare,0.75|Kingslayer Scythe,Rare,0.75|Kingslayer Naginata,Rare,0.75|Dragon Flail,Common,0.75|Neon Kanji,Epic,0.75|Scorpion,Mythic,0.75|Immortal Blade,Rare,0.75|Sunrise Katana,Uncommon,0.75|Poison Vial,Mythic,0.75|Light Blade,Uncommon,0.75|Wreath,Rare,0.75|Korean Longblade,Rare,0.75|Steel Dagger,Epic,0.5|Messer,Rare,0.5|Faiya,Rare,0.5|White Rabbit,Common,0.5|Damascus Steel Katana,Common,0.5|Black Blood Caestus,Rare,0.5|Cosmic Spear,Common,0.5|Netrunner,Common,0.5|Hallow scythe,Common,0.5|Black Blood Kanabo,Rare,0.5|Behemoth Lance,Uncommon,0.5|Tiger Claw,Uncommon,0.5|Blood Kanabo,Rare,0.5|Dragonscale Kusarigama,Rare,0.5|Candy Cane,Uncommon,0.5|Moonlight Behemoth,Uncommon,0.5|Black Blood Tanto,Rare,0.25|Black Blood Kusarigama,Rare,0.25|Blood Caestus,Rare,0.25|Blood Kusarigama,Rare,0.25|Blood Tanto,Rare,0.25|Shuriken Tanto,Legendary,0.25|Vibro Tanto,Rare,0.25|Whale Scepter,Common,0.25|Chainsaw Kusarigama,Rare,0.25|Mystic Staff,Rare,0.25|Chainsaw Caestus,Rare,0.25|Snake Blade,Uncommon,0.25|Fel Warblade,Uncommon,0.25|Snowman Naginata,Rare,0.25|Christmas Gift Caestus,Rare,0.25|Chain Kusarigama,Rare,0.25|Spiked Knuckles,Rare,0.25|Project X Kanabo,Rare,0.25|Twin Point,Common,0.25|Urchin Sting,Rare,0.15|Serpent Coil,Rare,0.15|Project X Caestus,Rare,0.15|Project X Kusarigama,Common,0.15|Project X Tanto,Common,0.15|Pot o Gold,Common,0.15|Lucky Hat,Common,0.15|Reindeer Kanabo,Common,0.15|Icicle Kusarigama,Common,0.15|Candy Cane Tanto,Common,0.15|Fel Kusarigama,Common,0.15|Bone Kusarigama,Common,0.01|Chainsaw,Common,0.01|Spiked Kanabo,Common,0.0000000001|Fish Hook,Common,0.01|Seaserpent Fang,Common,0.01|Seashell Gauntlet,Common,0.01|Feral Claws,Common,0.01|Heart Staff,Common,0.01|Heart Dagger,Common,0.01|Turtle Shell,Common,0.01|Revenant,Common,0";
         const eStr = "Shuriken Pop,Exotic,65|UFO,Legendary,60|Black Swirl,Legendary,8|Soul Stealer,Epic,5|Eviscerate,Epic,5|Dark Flame,Rare,4|Angel,Epic,4|Lunar Dragon,Epic,4|Robux Crush,Epic,4|Dragon Fire,Epic,4|Confetiffy,Rare,3|Bones,Epic,3|Basan Burn,Rare,2|Midas,Epic,2|Petrify,Epic,2|Doggo,Epic,1.5|Kraken,Epic,1|Arcane Lotus,Epic,1|Bedridden,Epic,1|Celestial Palm,Epic,1|Sakurify,Epic,1|Shurikens Effect,Epic,1|Starify,Epic,1|Firework,Epic,1|Volcano,Epic,1|Yen Rain,Epic,0.75|Fire Tornado,Epic,0.5|Freeze,Epic,0.5|Implode,Epic,0.5|Candy Corn,Epic,0.25|Candy Cane,Epic,0.25|Afterimage,Epic,0.25|Laijutsu,Epic,0.25";
 
@@ -518,12 +515,10 @@
             db.push({ id: 'k' + idCount++, name: n, internalName: n.toLowerCase(), type: 'Kill Effects', rarity: r.toLowerCase(), value: parseFloat(v), svg: svgs['Kill Effects'] });
         });
 
-        // --- GLOBAL STATE ---
         let currentFilter = 'All';
         let tradeState = { p1: [], p2: [] };
         let inventoryState = {};
 
-        // --- INIT FILTERS ---
         const filterTypes = ['All', 'Katanas', 'Kanabos', 'Naginatas', 'Scythes', 'Tantos', 'Odachis', 'Kusarigamas', 'Caestus', 'Kill Effects'];
         const filterContainer = document.getElementById('filter-container');
         filterTypes.forEach(type => {
@@ -539,7 +534,6 @@
             filterContainer.appendChild(btn);
         });
 
-        // --- THEME ---
         function changeTheme(themeName) {
             document.documentElement.setAttribute('data-theme', themeName);
             document.querySelectorAll('[data-theme-opt]').forEach(btn => {
@@ -549,7 +543,6 @@
             evaluateTrade();
         }
 
-        // --- NAVIGATION ---
         function switchTab(tabId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
 
@@ -577,7 +570,6 @@
             return (v === null || v === undefined) ? 'N/A' : v;
         }
 
-        // --- 1. VALUE LIST WITH DUAL PRICES ---
         function renderValueGrid() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const sort = document.getElementById('sortSelect').value;
@@ -635,7 +627,6 @@
             });
         }
 
-        // --- 2. CALCULATOR ---
         function showDropdown(player) {
             const dropdown = document.getElementById(`${player}-dropdown`);
             dropdown.innerHTML = '';
@@ -771,7 +762,6 @@
             }
         }
 
-        // --- 3. SCANNER VISUAL GRID & MODAL ---
         function renderScannerGrid() {
             const search = document.getElementById('scan-search').value.toLowerCase();
             const container = document.getElementById('scanner-grid');
@@ -876,7 +866,6 @@
             }
         });
 
-        // --- 4. INVENTORY ---
         function renderInventoryList() {
             const search = document.getElementById('inv-search').value.toLowerCase();
             const container = document.getElementById('inventory-list');
@@ -976,7 +965,6 @@
             setTimeout(() => { msgEl.classList.remove('opacity-100'); msgEl.classList.add('opacity-0'); }, 3000);
         }
 
-        // --- INIT ---
         let savedTheme = 'dark';
         try { savedTheme = localStorage.getItem('zohub-theme') || 'dark'; } catch (e) { }
         changeTheme(savedTheme);
@@ -994,7 +982,8 @@
         } else {
             window.addEventListener('load', () => setTimeout(hideBoot, 300));
         }
-        setTimeout(hideBoot, 3500); // filet de sécurité si une ressource ne répond pas
+        setTimeout(hideBoot, 3500);
     </script>
 </body>
 </html>
+
